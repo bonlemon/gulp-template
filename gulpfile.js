@@ -2,20 +2,60 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
+const browserSync = require('browser-sync');
+const del = require('del');
 
+
+// Task for update sass files and convert the files into css
 gulp.task('sass', function () {
     return gulp.src('app/scss/**/*.scss')
-            .pipe(sass())
-            .pipe(autoprefixer())
-            .pipe(cleanCss())
-            .pipe(gulp.dest('app/css'))
+        .pipe(sass())
+        .pipe(autoprefixer())
+        .pipe(cleanCss())
+        .pipe(gulp.dest('app/css'))
+        // update browser, when sass files will be updated
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 })
 
+// Configuration and start of browserSync
+// The browserSync will update browser when files were updated
+gulp.task('browserSync', function () {
+    browserSync({
+        server: {
+            baseDir: 'app'
+        },
+    })
+})
 
-gulp.task('watch', function() {
-    // gulp.task('watch', ['browser-sync', 'css-libs', 'scripts'], function() {
-	gulp.watch('app/scss/**/*.scss', ['sass']);
-	// gulp.watch('app/*.html', browserSync.reload);
-	// gulp.watch('app/js/**/*.js', browserSync.reload);
-
+// Start "watch" process
+// First - start browserSync and sass task 
+// Then start search changes of scss, html and js files
+gulp.task('watch', ['browserSync', 'sass'], function () {
+    gulp.watch('app/scss/**/*.scss', ['sass']);
+    gulp.watch('app/*.html', browserSync.reload);
+    gulp.watch('app/js/**/*.js', browserSync.reload);
 });
+
+// Remove production folder
+gulp.task('clean', () => {
+    del.sync('production')
+})
+
+// Production build
+// Remove production folder
+// And then transfer files into production folder
+gulp.task('build', ['clean', 'sass'], function () {
+    gulp.src('app/css/main.css')
+        .pipe(gulp.dest('production/css'))
+
+    gulp.src('app/js/**/*.js')
+        .pipe(gulp.dest('production/js'))
+
+    gulp.src('app/*.html')
+        .pipe(gulp.dest('production'));
+});
+
+// Defaul task
+gulp.task('default', ['watch']);
