@@ -1,0 +1,1 @@
+"use strict";document.addEventListener("DOMContentLoaded",function(){return setTimeout(function(){return console.log("dom is ready")},5e3)}),document.addEventListener("DOMContentLoaded",function(){return setTimeout(function(){return console.log("dom is ready")},5e3)});

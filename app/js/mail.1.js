@@ -1,0 +1,2 @@
+//weufbuewfubewfuibweuifbewuifhpiuerfghipuerhgierdinfgyeiouryiergi8eugpierhfgogeriugeipghepkurghiperwugherw hgipuerwhgkuerhgvergiurehgpikherpiguherwipugherkugheriuh
+document.addEventListener('DOMContentLoaded', () => setTimeout(() => console.log('dom is ready !!!!!!'), 3000))
