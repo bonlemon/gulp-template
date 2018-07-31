@@ -10,34 +10,50 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglifyjs');
 const babel = require('gulp-babel');
 const concatCss = require('gulp-concat-css');
+const imagemin = require('gulp-imagemin')
 
 
 // Task for update sass files and convert the files into css
 gulp.task('sass', () =>
     gulp.src('app/scss/**/*.scss')
-        .pipe(sass())
-        .pipe(autoprefixer())
-        .pipe(cleanCss())
-        .pipe(concatCss('main.css'))
-        .pipe(gulp.dest('app'))
-        // update browser, when sass files will be updated
-        .pipe(browserSync.reload({
-            stream: true
-        }))
+    .pipe(sass())
+    .pipe(autoprefixer())
+    .pipe(cleanCss())
+    .pipe(concatCss('main.css'))
+    .pipe(gulp.dest('app'))
+    // update browser, when sass files will be updated
+    .pipe(browserSync.reload({
+        stream: true
+    }))
 )
 
 
 gulp.task('script', () =>
     gulp.src('app/js/**/*.js')
-        .pipe(babel({
-            presets: ['env']
-        }))
-        .pipe(concat('bundle.js'))
-        .pipe(gulp.dest('app/'))
-        .pipe(browserSync.reload({
-            stream: true
-        }))
+    .pipe(babel({
+        presets: ['env']
+    }))
+    .pipe(concat('bundle.js'))
+    .pipe(gulp.dest('app/'))
+    .pipe(browserSync.reload({
+        stream: true
+    }))
 )
+
+
+gulp.task('img',() => {
+    gulp.src('app/img/**/*')
+        // compress with pretty settings
+        .pipe(imagemin({
+            interlaced: true,
+            progressive: true,
+            svgoPlugins: [{
+                removeViewBox: false
+            }],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest('production/img'));
+});
 
 
 // Configuration and start of browserSync
@@ -68,14 +84,14 @@ gulp.task('clean', () => {
 // Production build
 // Remove production folder
 // And then transfer files into production folder
-gulp.task('build', ['clean', 'sass'], function () {
+gulp.task('build', ['clean', 'sass', 'img'], function () {
     gulp.src('app/main.css')
         .pipe(gulp.dest('production'))
 
     // gulp.src('app/js/**/*.js')
     gulp.src('app/bundle.js')
         .pipe(uglify())
-        .pipe(gulp.dest('production/'))
+        .pipe(gulp.dest('production'))
 
     gulp.src('app/*.html')
         .pipe(gulp.dest('production'));
