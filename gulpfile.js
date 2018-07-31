@@ -15,29 +15,29 @@ const concatCss = require('gulp-concat-css');
 // Task for update sass files and convert the files into css
 gulp.task('sass', () =>
     gulp.src('app/scss/**/*.scss')
-    .pipe(sass())
-    .pipe(autoprefixer())
-    .pipe(cleanCss())
-    .pipe(concatCss('main.css'))
-    .pipe(uglify())
-    .pipe(gulp.dest('app'))
-    // update browser, when sass files will be updated
-    .pipe(browserSync.reload({
-        stream: true
-    }))
+        .pipe(sass())
+        .pipe(autoprefixer())
+        .pipe(concatCss('main.css'))
+        .pipe(cleanCss())
+        .pipe(gulp.dest('app'))
+        // update browser, when sass files will be updated
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 )
 
 
 gulp.task('script', () =>
     gulp.src('app/js/**/*.js')
-    .pipe(babel({
-        presets: ['env']
-    }))
-    .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('app/'))
-    .pipe(browserSync.reload({
-        stream: true
-    }))
+        .pipe(babel({
+            presets: ['env']
+        }))
+        .pipe(concat('bundle.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('app/'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 )
 
 
