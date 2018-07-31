@@ -33,7 +33,6 @@ gulp.task('script', () =>
             presets: ['env']
         }))
         .pipe(concat('bundle.js'))
-        .pipe(uglify())
         .pipe(gulp.dest('app/'))
         .pipe(browserSync.reload({
             stream: true
@@ -75,6 +74,7 @@ gulp.task('build', ['clean', 'sass'], () => {
 
     // gulp.src('app/js/**/*.js')
     gulp.src('app/bundle.js')
+        .pipe(uglify())
         .pipe(gulp.dest('production'))
 
     gulp.src('app/*.html')
