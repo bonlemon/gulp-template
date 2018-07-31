@@ -19,6 +19,7 @@ gulp.task('sass', () =>
     .pipe(autoprefixer())
     .pipe(cleanCss())
     .pipe(concatCss('main.css'))
+    .pipe(uglify())
     .pipe(gulp.dest('app'))
     // update browser, when sass files will be updated
     .pipe(browserSync.reload({
@@ -74,7 +75,6 @@ gulp.task('build', ['clean', 'sass'], () => {
 
     // gulp.src('app/js/**/*.js')
     gulp.src('app/bundle.js')
-        .pipe(uglify())
         .pipe(gulp.dest('production'))
 
     gulp.src('app/*.html')

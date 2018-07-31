@@ -1,3 +1,19 @@
+@import 'colors.scss';
+
 body{
-    background: #000;
+    background: $gray-dark;
+}
+
+.content {
+    width: 100%;
+    margin: auto;
+    max-width: 1366px;
+}
+
+.header {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.footer {
+    display: flex;
 }
