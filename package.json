@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gulp build && gh-pages -d production"
   },
   "repository": {
     "type": "git",
@@ -15,12 +15,13 @@
   "bugs": {
     "url": "https://github.com/bonlemon/entrance-task-2-2/issues"
   },
-  "homepage": "https://github.com/bonlemon/entrance-task-2-2#readme",
+  "homepage": "https://bonlemon.github.io/entrance-task-2-2",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.24.6",
     "del": "^3.0.0",
+    "gh-pages": "^1.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",

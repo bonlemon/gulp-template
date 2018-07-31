@@ -1,4 +1,4 @@
-require("babel-register");
+// require("babel-register");
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
@@ -10,7 +10,6 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglifyjs');
 const babel = require('gulp-babel');
 const concatCss = require('gulp-concat-css');
-const imagemin = require('gulp-imagemin')
 
 
 // Task for update sass files and convert the files into css
@@ -41,24 +40,9 @@ gulp.task('script', () =>
 )
 
 
-gulp.task('img',() => {
-    gulp.src('app/img/**/*')
-        // compress with pretty settings
-        .pipe(imagemin({
-            interlaced: true,
-            progressive: true,
-            svgoPlugins: [{
-                removeViewBox: false
-            }],
-            use: [pngquant()]
-        }))
-        .pipe(gulp.dest('production/img'));
-});
-
-
 // Configuration and start of browserSync
 // The browserSync will update browser when files were updated
-gulp.task('browserSync', function () {
+gulp.task('browserSync', () => {
     browserSync({
         server: {
             baseDir: 'app'
@@ -69,7 +53,7 @@ gulp.task('browserSync', function () {
 // Start "watch" process
 // First - start browserSync and sass task 
 // Then start search changes of scss, html and js files
-gulp.task('watch', ['browserSync', 'sass', 'script'], function () {
+gulp.task('watch', ['browserSync', 'sass', 'script'], () => {
     gulp.watch('app/scss/**/*.scss', ['sass']);
     gulp.watch('app/js/**/*.js', ['script']);
     gulp.watch('app/*.html', browserSync.reload);
@@ -84,7 +68,7 @@ gulp.task('clean', () => {
 // Production build
 // Remove production folder
 // And then transfer files into production folder
-gulp.task('build', ['clean', 'sass', 'img'], function () {
+gulp.task('build', ['clean', 'sass'], () => {
     gulp.src('app/main.css')
         .pipe(gulp.dest('production'))
 
@@ -95,6 +79,9 @@ gulp.task('build', ['clean', 'sass', 'img'], function () {
 
     gulp.src('app/*.html')
         .pipe(gulp.dest('production'));
+
+    gulp.src('app/img/*')
+        .pipe(gulp.dest('production/img'));
 });
 
 // Defaul task
